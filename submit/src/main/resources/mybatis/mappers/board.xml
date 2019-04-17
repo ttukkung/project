@@ -1,0 +1,206 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+      PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="mapper.board">
+
+	<resultMap id="boardResult" type="boardDTO">
+		<result property="level" column="level" />
+		<result property="articleNO" column="articleNO" />
+		<result property="parentNO" column="parentNO" />
+		<result property="title" column="title" />
+		<result property="content" column="content" />
+		<result property="writeDate" column="writeDate" />
+		<result property="imageFileName" column="imageFileName" />
+		<result property="replyCnt" column="replyCnt" />
+			<result property="recommendation" column="recommendation" />
+		<!-- <result property="contentNum" column="contentNum" /> <result property="pageNum" 
+			column="pageNum" /> -->
+	</resultMap>
+
+
+	<!-- <select id="listBoard" resultMap="boardResult"> <![CDATA[ select * 
+		from t_board order by articleNO desc ]]> </select> -->
+
+
+
+
+	<select id="pagingCount" resultType="int">
+	
+	 
+	select count(*) from t_Board
+	
+		<include refid="search"></include>
+
+	
+	</select>
+
+
+	
+	
+		<select id="listBoard" resultMap="boardResult">
+
+    
+
+
+
+	SELECT * FROM (
+	SELECT ROWNUM AS rn, A.* FROM (
+	select articleNO,title,content,writedate,id,hit,recommendation,(SELECT
+	COUNT(*) FROM t_reply WHERE articleNO=b.articleNO) AS replyCnt from t_board
+	b 
+			
+		<include refid="search"></include>
+		
+		 order by 
+		 
+		 <choose>
+		 <when test="listOption == 'recommendation'">
+		 recommendation 
+		 </when>
+		  <when test="listOption == 'hit'">
+	     	  hit
+		 </when>
+		  <when test="listOption == 'All'">
+		 articleNO
+		 </when>
+		  </choose>
+		
+		
+		 <![CDATA[ desc  ) A ) WHERE rn > ]]>
+  		  
+  		  
+  		  
+  		   <choose>
+		 <when test="listOption == 'recommendation'">
+		 0
+		 </when>
+		  <when test="listOption == 'hit'">
+	     	 0
+		 </when>
+		 <when test="listOption == 'All'">
+		 
+  		  (#{pageNum}-1)*#{contentNum}
+		 </when>
+		  </choose>
+		
+  		  
+  		  <![CDATA[ AND rn  <=]]>
+  		  
+  		  
+  		  	   <choose>
+		 <when test="listOption == 'recommendation'">
+		 10
+		 </when>
+		  <when test="listOption == 'hit'">
+	     	10
+		 </when>
+		 <when test="listOption == 'All'">
+		 
+  		  #{pageNum}*#{contentNum}
+		  </when>
+		  </choose>
+		
+  		  
+  		 
+
+	</select>
+	
+	
+	<!-- <select id="listBoardBest5" resultMap="boardResult">
+	<![CDATA[
+	 SELECT * FROM (
+	SELECT ROWNUM AS rn, A.* FROM (
+	select recommendation,articleNO,title,content,writedate,id,hit,(SELECT
+	COUNT(*) FROM t_reply WHERE articleNO=b.articleNO) AS replyCnt from t_board
+	b  order by recommendation desc
+          ) A
+  		  ) WHERE rn > 0 AND rn <= 5;
+  		  ]]>
+	</select>
+ -->
+	<!-- <select id="listBoard" resultMap="boardResult"> select articleNO,title,content,writedate,id,(SELECT 
+		COUNT(*) FROM t_reply WHERE articleNO=b.articleNO) AS replyCnt from t_board 
+		b <include refid="search"></include> order by articleNO desc </select> -->
+
+	<sql id="search">
+		<choose>
+
+			<when test="option == 'all'">
+				WHERE id like '%'||#{keyword}||'%'
+				OR title like
+				'%'||#{keyword}||'%'
+				OR content like '%'||#{keyword}||'%'
+			</when>
+
+			<otherwise>
+				WHERE ${option} like '%'||#{keyword}||'%'
+			</otherwise>
+		</choose>
+	</sql>
+
+
+
+	<insert id="insertBoard" parameterType="java.util.Map">
+      <![CDATA[
+        insert into t_board(articleNO,title,content,imageFileName,id) values
+     (#{articleNO},#{title},#{content},#{imageFileName},#{id})
+      ]]>
+	</insert>
+
+
+
+	<select id="newArticleNO" resultType="int">
+      <![CDATA[
+          select t_board_seq.nextval from dual	 	
+      ]]>
+	</select>
+	
+	<update id="upHit" parameterType="int">
+      <![CDATA[
+          update t_board set hit=hit+1 where articleNO=#{articleNO}
+      ]]>
+	</update>
+	
+	<update id="downHit" parameterType="int">
+      <![CDATA[
+          update t_board set hit=hit-1 where articleNO=#{articleNO}
+      ]]>
+	</update>
+	
+		<update id="recommendation" parameterType="int">
+      <![CDATA[
+          update t_board set recommendation=recommendation+1 where articleNO=#{articleNO}
+      ]]>
+	</update>
+
+	<select id="viewBoard" resultType="boardDTO" parameterType="int">
+      <![CDATA[
+          select * from t_board where articleNO=#{articleNO}
+      ]]>
+	</select>
+	
+	
+
+	<delete id="deleteBoard" parameterType="int">
+      <![CDATA[
+          delete from t_board where articleNO=#{articleNO}
+      ]]>
+	</delete>
+
+	<update id="modifyBoard" parameterType="java.util.Map">
+
+		update t_board set title=#{title},content=#{content}
+
+		<if test="imageFileName!='' and imageFileName!=null">
+			, imageFileName=#{imageFileName}
+		</if>
+
+		where articleNO=#{articleNO}
+
+	</update>
+	
+	
+
+</mapper>
