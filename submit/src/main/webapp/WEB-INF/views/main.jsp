@@ -60,7 +60,7 @@ p {
 	<div class="mainWelcome">
 
 		<p>
-			<br> <span id="r1">깃연동테스트development environment </span><br> <br>
+			<br> <span id="r1">깃연동테스트 계속development environment </span><br> <br>
 			<span id="r2"> OS:Windows 10<br> JDK:jdk-10<br>
 				Language:JSP/CSS/JAVASCRIPT/HTML5<br> Framework:SPRING<br>
 				Database:Oracle Database 11g Express Edition Release 11.2.0.2.0<br>
