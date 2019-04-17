@@ -10,7 +10,7 @@ import com.project.submit.board.DTO.ReplyDTO;
 
 public interface ReplyController {
 
-	public ModelAndView  listReply (@RequestParam("articleNO") int articelNO) throws Exception;
+	public ModelAndView  listReply (@RequestParam("id") String id,@RequestParam("articleNO") int articelNO) throws Exception;
 	
 	public String insertReply(@RequestParam("articleNO")int articleNO ,@ModelAttribute("replyDTO")ReplyDTO replyDTO) throws Exception;
 	

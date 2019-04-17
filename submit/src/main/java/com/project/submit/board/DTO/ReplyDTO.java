@@ -12,6 +12,17 @@ public class ReplyDTO {
 	public String replyContent;
 	public String replyer;
 	public Date writedate;
+	public int secret;
+	
+	
+	
+	
+	public int getSecret() {
+		return secret;
+	}
+	public void setSecret(int secret) {
+		this.secret = secret;
+	}
 	public int getReplyNO() {
 		return replyNO;
 	}

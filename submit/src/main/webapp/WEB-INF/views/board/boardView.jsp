@@ -99,7 +99,7 @@ textarea {
 }
 
 textarea.replyText {
-	width: 800px;
+	width: 700px;
 	height: 40px;
 	border-radius: 5px;
 	border: 1px solid #D5D5D5;
@@ -126,6 +126,7 @@ textarea.replyText {
 	text-align: center;
 	padding-bottom: 0px;
 }
+
 </style>
 
 
@@ -179,13 +180,15 @@ textarea.replyText {
 		$
 				.ajax({
 
-					url : "${contextPath}/reply/listReply.do?articleNO=${boardView.articleNO}",
+					url : "${contextPath}/reply/listReply.do?articleNO=${boardView.articleNO}&id=${boardView.id}",
 					success : function(result) {
 						// responseText가 result에 저장됨.
 						$("#listReply").html(result);
 					}
 				});
 	});
+	
+
 </script>
 
 
@@ -208,7 +211,7 @@ textarea.replyText {
 
 
 
-					<div id="name">작성자 : ${boardView.id} / 작성날짜 :
+					<div id="name">작성자 :${boardView.id}  / 작성날짜 :
 						${boardView.writeDate}</div>
 
 					<br> <br>
@@ -290,6 +293,10 @@ textarea.replyText {
 							name="replyer" value="${loginSession.id}"> <%-- <input
 						type="hidden" value="${loginSession.id}" id="loginSession_ia"> --%>
 						<textarea class="replyText" name="replyContent"></textarea>
+						
+					 <span style="font-size:13px;">&nbsp;&nbsp;&nbsp;비밀댓글</span>
+					  <input id="secret" type="checkbox" value=1  name="secret"/>		
+					  			
 					</div>
 					<div id="insertReply2">
 						<input type="button" value="댓글입력" id="insertReply_i"

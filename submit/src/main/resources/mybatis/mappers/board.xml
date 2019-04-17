@@ -102,9 +102,15 @@
 		  </when>
 		  </choose>
 		
-  		  
-  		 
-
+  		<!--    <choose>
+  			<when test="boardOption == byId">
+  				 and id=#{loginId}
+  				 </when>	
+  				 <when test="boardOption == normal">
+  				
+  				 </when> 
+			</choose> -->
+			
 	</select>
 	
 	

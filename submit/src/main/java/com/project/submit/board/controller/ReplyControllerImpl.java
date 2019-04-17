@@ -27,12 +27,13 @@ public class ReplyControllerImpl implements ReplyController {
 	@Override
 	@RequestMapping(value = "/reply/listReply.do")
 
-	public ModelAndView listReply(@RequestParam("articleNO") int articleNO) throws Exception {
+	public ModelAndView listReply(@RequestParam("id") String id,@RequestParam("articleNO") int articleNO) throws Exception {
 		ModelAndView mav = new ModelAndView();
 		List list = replyService.listReply(articleNO);
 
 		mav.addObject("listReply", list);
 		mav.addObject("articleNO", articleNO);
+		mav.addObject("checkid", id);
 		mav.setViewName("/reply/replyList");
 
 		return mav;
@@ -45,7 +46,8 @@ public class ReplyControllerImpl implements ReplyController {
 			throws Exception {
 
 		replyService.insertReply(replyDTO, articleNO);
-
+		int secret=replyDTO.getSecret();
+		System.out.println("시크릿"+secret);
 	return "redirect:/board/viewBoard.do?articleNO=" + articleNO;
 		// return "redirect:/board/listBoard.do";
 	}

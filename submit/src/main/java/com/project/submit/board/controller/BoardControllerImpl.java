@@ -15,6 +15,7 @@ import javax.servlet.http.HttpSession;
 import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -41,13 +42,14 @@ public class BoardControllerImpl implements BoardController {
 
 	@Autowired
 	PageMaker pageMaker;
-
 	
+	
+	
+
 	public int totalCount(String option, String keyword) throws Exception {
 		int totalCount = boardService.totalCount(option, keyword);
 		return totalCount;
 	}
-	
 
 	@Override
 	@RequestMapping(value = "/board/listBoard.do")
@@ -69,10 +71,10 @@ public class BoardControllerImpl implements BoardController {
 		pageMaker.setStartPage(pageMaker.getCurrentBlock());
 		pageMaker.setEndPage(pageMaker.getLastBlock(), pageMaker.getCurrentBlock());
 		
-		
-		List recommendationList = boardService.listBoard(option, keyword, pageNum, contentNum,"recommendation");
-		List hitList = boardService.listBoard(option, keyword, pageNum, contentNum,"hit");
-		List Alllist = boardService.listBoard(option, keyword, pageNum, contentNum,"All");
+
+		List recommendationList = boardService.listBoard(option, keyword, pageNum, contentNum, "recommendation");
+		List hitList = boardService.listBoard(option, keyword, pageNum, contentNum, "hit");
+		List Alllist = boardService.listBoard(option, keyword, pageNum, contentNum, "All");
 
 		mav.setViewName("/board/boardList");
 		mav.addObject("option", option);
@@ -83,7 +85,6 @@ public class BoardControllerImpl implements BoardController {
 		mav.addObject("page", pageMaker);
 		return mav;
 	}
-	
 
 	@Override
 	@RequestMapping(value = "/board/insertBoard.do", method = RequestMethod.POST)
@@ -112,8 +113,6 @@ public class BoardControllerImpl implements BoardController {
 
 		return "redirect:/board/listBoard.do?pageNum=1";
 	}
-	
-	
 
 	public String upload(MultipartHttpServletRequest mpsl) throws Exception {
 
@@ -135,8 +134,6 @@ public class BoardControllerImpl implements BoardController {
 
 		return imageFileName;
 	}
-	
-	
 
 	@RequestMapping(value = "/board/boardForm.do")
 	public ModelAndView boardForm(HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -155,8 +152,6 @@ public class BoardControllerImpl implements BoardController {
 		}
 		return mav;
 	}
-	
-	
 
 	@RequestMapping(value = "/board/modifyBoardForm.do")
 	public ModelAndView modifyBoardForm(@RequestParam("originFileName") String originFileName,
@@ -168,8 +163,6 @@ public class BoardControllerImpl implements BoardController {
 		mav.addObject("originFileName", originFileName);
 		return mav;
 	}
-	
-	
 
 	@Override
 	@RequestMapping(value = "/board/viewBoard.do")
@@ -185,8 +178,6 @@ public class BoardControllerImpl implements BoardController {
 
 		return mav;
 	}
-	
-	
 
 	@Override
 	@RequestMapping(value = "/board/deleteBoard.do")
@@ -196,8 +187,6 @@ public class BoardControllerImpl implements BoardController {
 
 		return "redirect:/board/listBoard.do?pageNum=1";
 	}
-	
-		
 
 	@Override
 	@RequestMapping(value = "/board/modifyBoard.do", method = RequestMethod.POST)
@@ -237,16 +226,12 @@ public class BoardControllerImpl implements BoardController {
 		return "redirect:/board/listBoard.do?pageNum=1";
 	}
 
-
 	@Override
 	@RequestMapping(value = "/board/recommendation.do")
 	public String recommendation(int articleNO) throws Exception {
 		boardService.recommendation(articleNO);
-		
-		return "redirect:/board/viewBoard.do?articleNO="+articleNO;
+
+		return "redirect:/board/viewBoard.do?articleNO=" + articleNO;
 	}
-	
-	
-	
 
 }

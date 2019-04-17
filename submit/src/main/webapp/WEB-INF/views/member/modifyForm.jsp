@@ -3,7 +3,7 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%
-  request.setCharacterEncoding("UTF-8");
+	request.setCharacterEncoding("UTF-8");
 %>
 <c:set var="contextPath" value="${pageContext.request.contextPath}" />
 
@@ -96,10 +96,17 @@
 #memberInsert {
 	height: 50px;
 }
+#caution{
+text-align:center;
+}
 </style>
 </head>
 
 <body>
+
+		<c:choose>
+			<c:when test="${loginSession.id==modifyForm.id}">
+
 	<div class="modifyFormContainer">
 		<form name="modifyForm" action="${contextPath}/member/modifyMembers">
 
@@ -129,5 +136,11 @@
 			</div>
 		</form>
 	</div>
+	</c:when>
+	<c:otherwise>
+	<p id="caution">잘못된 접근입니다.</p>
+	</c:otherwise>
+	</c:choose>
+	
 </body>
 </html>

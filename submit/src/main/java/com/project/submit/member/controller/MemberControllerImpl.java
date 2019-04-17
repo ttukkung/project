@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -23,6 +24,8 @@ public class MemberControllerImpl implements MemberController {
 
 	@Autowired
 	MemberService memberService;
+	
+	
 
 	@Override
 	@RequestMapping(value = "/member/listMembers.do")
@@ -38,7 +41,7 @@ public class MemberControllerImpl implements MemberController {
 	}
 
 	@Override
-	@RequestMapping(value = "/member/insertMembers")
+	@RequestMapping(value = "/member/insertMembers",method = RequestMethod.POST)
 	public ModelAndView insertMembers(@ModelAttribute("memberDTO") MemberDTO memberDTO, HttpServletRequest request,HttpServletResponse response)
 			throws Exception {
 
@@ -48,12 +51,16 @@ public class MemberControllerImpl implements MemberController {
 		String exist = memberService.idCheck(idCheck);
 		System.out.println(exist);
 		if (exist == null) {
-
+			String loginId=memberDTO.getId();
+			System.out.println("로그인 아이디"+loginId);
+		
+			
 
 			memberService.insertMembers(memberDTO);
 			MemberDTO loginInfo = memberService.loginMembers(memberDTO);
 			HttpSession session = request.getSession();
-		
+
+			session.setAttribute("loginId", loginId);
 			session.setAttribute("loginSession", loginInfo);
 			
 			mav.setViewName("main");
@@ -93,7 +100,7 @@ public class MemberControllerImpl implements MemberController {
 	}
 
 	@Override
-	@RequestMapping("/member/loginMembers.do")
+	@RequestMapping(value="/member/loginMembers.do",method = RequestMethod.POST)
 	public ModelAndView loginMembers(@ModelAttribute("memberDTO") MemberDTO memberDTO, HttpServletRequest request)
 			throws Exception {
 
@@ -101,8 +108,8 @@ public class MemberControllerImpl implements MemberController {
 		String id = memberDTO.getId();
 		String pwd = memberDTO.getPwd();
 		System.out.println(id + pwd);
-		MemberDTO loginInfo = memberService.loginMembers(memberDTO); // 여기서 해맸음 받아오는값은 두개여서 memberDTO로 했어야했는데
-																		// int로하고앉았음,그리고 매핑에 resultType도 memberDTO로해야함
+		MemberDTO loginInfo = memberService.loginMembers(memberDTO); 
+																		
 		System.out.println(loginInfo);
 		if (loginInfo != null) {
 			

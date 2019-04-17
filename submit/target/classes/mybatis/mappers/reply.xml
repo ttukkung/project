@@ -23,7 +23,8 @@
 	
 	<insert id="insertReply"  parameterType="replyDTO">
       <![CDATA[
-        insert into t_reply(replyNO,articleNO,replyContent,replyer,writedate) values(t_reply_seq.nextval,#{articleNO},#{replyContent},#{replyer},sysdate)
+        insert into t_reply(replyNO,articleNO,replyContent,replyer,writedate,secret) 
+        values(t_reply_seq.nextval,#{articleNO},#{replyContent},#{replyer},sysdate,#{secret})
       ]]>
 	</insert>
 	

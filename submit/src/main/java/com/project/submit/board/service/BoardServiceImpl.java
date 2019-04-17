@@ -19,7 +19,8 @@ public class BoardServiceImpl implements BoardService {
 	BoardDTO boardDTO;
 	
 	@Override
-	public List listBoard(String option,String keyword,int PageNum,int contentNum,String listOption) throws Exception {
+	public List listBoard(String option,String keyword,int PageNum,int contentNum,String listOption
+			) throws Exception {
 		List list = boardDAO.listBoard(option,keyword,PageNum,contentNum,listOption);
 		return list;
 	}

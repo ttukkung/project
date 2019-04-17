@@ -96,7 +96,7 @@
 <body>
 	<div class="memberFormContainer">
 
-		<form name="memberForm" action="${contextPath}">
+		<form name="memberForm" action="${contextPath}" method="post">
 
 			<div class="memberFormList">
 

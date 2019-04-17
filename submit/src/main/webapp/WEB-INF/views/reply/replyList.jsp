@@ -57,7 +57,47 @@ td.td1 {
 					<td id="replyDate">${reply.writedate}</td>
 				</tr>
 				<tr>
-					<td class="td1">${reply.replyContent}</td>
+				<c:choose>
+				
+				<c:when test="${reply.secret==0}">
+				
+				<td class="td1" >${reply.replyContent}</td>
+				
+				</c:when>
+				<%-- <c:when test="${reply.secret==1}">
+				
+				<td class="td1" style="color:#D5D5D5">비밀댓글입니다.</td>
+				
+				</c:when>
+				<c:when test="${reply.secret==1 && loginSession.id==null}">
+				
+				<td class="td1" style="color:#D5D5D5">비밀댓글입니다.</td>
+				
+				</c:when> --%>
+				<c:when test="${reply.secret==1 && loginSession.id==reply.replyer}">
+				
+				<td class="td1">${reply.replyContent}</td>
+				
+				</c:when>
+				<c:when test="${reply.secret==1 && loginSession.id==checkid}">
+				
+				<td class="td1">${reply.replyContent}</td>
+				
+				</c:when>
+				<c:when test="${reply.secret==1 && loginSession.id=='admin'}">
+				
+				<td class="td1">${reply.replyContent}</td>
+				
+				</c:when>
+				<c:otherwise>
+				<td class="td1" style="color:#D5D5D5">비밀댓글입니다.</td>
+				
+				</c:otherwise>
+				
+				</c:choose>
+				
+			
+			
 					<td id="replyDeleteAlign"><c:if
 							test="${loginSession !=null && loginSession.id==reply.replyer && loginSession.id!='admin'}">
 							<a id="replyDelete"

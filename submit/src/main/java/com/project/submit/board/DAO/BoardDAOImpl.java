@@ -21,7 +21,8 @@ public class BoardDAOImpl implements BoardDAO {
 	BoardDTO boardDTO;
 
 	@Override
-	public List listBoard(String option, String keyword,  int PageNum,int contentNum,String listOption) throws Exception {
+	public List listBoard(String option, String keyword,  int PageNum,int contentNum,String listOption
+			) throws Exception {
 
 		Map<String, Object> map = new HashMap<String, Object>();
 
@@ -30,6 +31,7 @@ public class BoardDAOImpl implements BoardDAO {
 		map.put("pageNum", PageNum);
 		map.put("contentNum", contentNum);
 		map.put("listOption", listOption);
+	
 		List<BoardDTO> list = sqlSession.selectList("listBoard", map);
 
 		return list;

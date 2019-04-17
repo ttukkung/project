@@ -40,6 +40,8 @@ input::-webkit-input-placeholder {
 	font-size: 15px;
 	color: red;
 }
+
+
 </style>
 <script>
 	function loginAction(obj) {
@@ -61,11 +63,16 @@ input::-webkit-input-placeholder {
 		obj.action = "${contextPath}/member/loginMembers.do"
 		obj.submit();
 	}
+	
+	
 </script>
 </head>
 <body>
+
+
+
 	<div class="loginFormContainer">
-		<form name="loginForm" action="${contextPath}">
+		<form name="loginForm" action="${contextPath}" method="post">
 			<span id="loginLogo">LOGIN</span> <input placeholder="ID" id="id_i"
 				type="text" name="id"> <input placeholder="PASSWORD"
 				id="pwd_i" type="password" name="pwd"> <br>

@@ -7,7 +7,8 @@ import com.project.submit.board.DTO.BoardDTO;
 
 public interface BoardDAO {
 
-	public List listBoard(String option,String keyword,  int PageNum,int contentNum,String listOption) throws Exception;
+	public List listBoard(String option,String keyword,  int PageNum,int contentNum,String listOption
+			) throws Exception;
 	
 	public int insertBoard(Map boardMap) throws Exception;
 	
